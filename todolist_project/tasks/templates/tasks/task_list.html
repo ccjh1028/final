@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'style.css' %}" type="text/css" media="screen" charset="utf-8">
+<div class="container">
+  <form id="add-task-form">
+    <p>
+      <label for="new-task">Add Item</label>
+      <input id="new-task" type="text" autocomplete="off">
+      <button id="add-task-btn" type="submit">Add</button>
+    </p>
+  </form>
+
+  <h3>Todo</h3>
+  <ul id="incomplete-tasks">
+    {% if user.is_authenticated %}
+      {% for task in tasks %}
+        {% if not task.completed %}
+          <li data-id="{{ task.id }}">
+            <input type="checkbox">
+            <label>{{ task.title }}</label>
+            <input type="text">
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+          </li>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <p>請先<a href="{% url 'login' %}">登入</a>查看您的任務</p>
+    {% endif %}
+  </ul>
+
+  <h3>Completed</h3>
+  <ul id="completed-tasks">
+    {% if user.is_authenticated %}
+      {% for task in tasks %}
+        {% if task.completed %}
+          <li data-id="{{ task.id }}">
+            <input type="checkbox" checked>
+            <label>{{ task.title }}</label>
+            <input type="text">
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+          </li>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </ul>
+</div>
+<script type="text/javascript" src="{% static 'app.js' %}"></script>
+{% endblock %}
