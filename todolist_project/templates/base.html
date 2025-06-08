@@ -17,6 +17,50 @@
         span {
             text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
         }
+        /* 暗色模式樣式 */
+        body.dark-mode {
+            background-color: #181a1b !important;
+            color: #e0e0e0 !important;
+        }
+        body.dark-mode .navbar,
+        body.dark-mode .navbar-light {
+            background-color: #23272b !important;
+        }
+        body.dark-mode .card,
+        body.dark-mode .bg-body {
+            background-color: #23272b !important;
+            color: #e0e0e0 !important;
+        }
+        body.dark-mode .list-group-item {
+            background-color: #23272b !important;
+            color: #e0e0e0 !important;
+        }
+        body.dark-mode .form-control {
+            background-color: #23272b !important;
+            color: #e0e0e0 !important;
+            border-color: #444 !important;
+        }
+        body.dark-mode .btn-outline-primary,
+        body.dark-mode .btn-outline-danger {
+            color: #e0e0e0 !important;
+            border-color: #888 !important;
+        }
+        body.dark-mode .btn-outline-primary:hover,
+        body.dark-mode .btn-outline-danger:hover {
+            background-color: #444 !important;
+        }
+        body.dark-mode .btn-success {
+            background-color: #198754 !important;
+            border-color: #198754 !important;
+        }
+        body.dark-mode .navbar-brand,
+        body.dark-mode a {
+            color: #e0e0e0 !important;
+        }
+        body.dark-mode footer {
+            background: #23272b !important;
+            color: #e0e0e0 !important;
+        }
     </style>
     
     <!-- 載入 Django 靜態檔案標籤 -->
@@ -27,6 +71,10 @@
     <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css" media="screen" charset="utf-8">
 </head>
 <body>
+    <!-- 黑白模式切換按鈕（右上角固定） -->
+    <button id="toggle-darkmode" class="btn btn-outline-secondary position-fixed" style="top: 18px; right: 18px; z-index: 1050;" title="切換黑白模式">
+        <span id="darkmode-icon" class="bi bi-moon"></span>
+    </button>
     <!-- 
         導航欄
         - 網站名稱置中
@@ -111,6 +159,34 @@
         - 子模板可追加 JS
     -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Icons CDN（如未載入可加） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script>
+        // 黑白模式切換
+        const btn = document.getElementById('toggle-darkmode');
+        const icon = document.getElementById('darkmode-icon');
+        // 儲存使用者偏好
+        function setDarkMode(on) {
+            if (on) {
+                document.body.classList.add('dark-mode');
+                icon.classList.remove('bi-moon');
+                icon.classList.add('bi-brightness-high');
+                localStorage.setItem('darkmode', '1');
+            } else {
+                document.body.classList.remove('dark-mode');
+                icon.classList.remove('bi-brightness-high');
+                icon.classList.add('bi-moon');
+                localStorage.setItem('darkmode', '0');
+            }
+        }
+        // 初始狀態
+        if (localStorage.getItem('darkmode') === '1') {
+            setDarkMode(true);
+        }
+        btn.onclick = function() {
+            setDarkMode(!document.body.classList.contains('dark-mode'));
+        }
+    </script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

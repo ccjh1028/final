@@ -7,7 +7,7 @@
     - 根據登入狀態顯示不同按鈕
 -->
 <style>
-  body {
+  .home-bg {
     background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
     min-height: 100vh;
   }
@@ -18,7 +18,8 @@
     padding: 48px 36px 36px 36px;
     max-width: 420px;
     margin: 100px auto 0 auto;
-    transition: box-shadow 0.2s;
+    transition: box-shadow 0.2s, background 0.2s, color 0.2s;
+    color: #222;
   }
   .home-card:hover {
     box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.22);
@@ -33,11 +34,14 @@
     letter-spacing: 2px;
     font-size: 2.2rem;
     margin-bottom: 18px;
+    color: #222;
+    transition: color 0.2s;
   }
   .home-desc {
     color: #555;
     font-size: 1.1rem;
     margin-bottom: 32px;
+    transition: color 0.2s;
   }
   .home-btn {
     width: 100%;
@@ -61,6 +65,29 @@
     background: linear-gradient(90deg, #0fc57c 60%, #0d6efd 100%);
     border: none;
   }
+  /* 暗色模式支援 */
+  body.dark-mode .home-bg {
+    background: linear-gradient(135deg, #23272b 0%, #181a1b 100%) !important;
+  }
+  body.dark-mode .home-card {
+    background: #23272b !important;
+    color: #e0e0e0 !important;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4);
+  }
+  body.dark-mode .home-title {
+    color: #e0e0e0 !important;
+  }
+  body.dark-mode .home-desc {
+    color: #bdbdbd !important;
+  }
+  body.dark-mode .home-btn.btn-primary,
+  body.dark-mode .home-btn.btn-success {
+    color: #fff !important;
+    filter: brightness(0.95);
+  }
+  body.dark-mode .text-muted {
+    color: #bdbdbd !important;
+  }
   @media (max-width: 600px) {
     .home-card {
       padding: 32px 10px 24px 10px;
@@ -70,26 +97,28 @@
   }
 </style>
 
-<div class="home-card text-center">
-  <!-- 網站 icon -->
-  <div class="home-icon">
-    <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
-      <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zm-1 1H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/>
-      <path d="M10.97 5.97a.75.75 0 0 1 1.07 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L5.324 10.384a.75.75 0 1 1 1.06-1.06l1.094 1.093 3.492-4.438z"/>
-    </svg>
+<div class="home-bg">
+  <div class="home-card text-center">
+    <!-- 網站 icon -->
+    <div class="home-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
+        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zm-1 1H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/>
+        <path d="M10.97 5.97a.75.75 0 0 1 1.07 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L5.324 10.384a.75.75 0 1 1 1.06-1.06l1.094 1.093 3.492-4.438z"/>
+      </svg>
+    </div>
+    <!-- 網站標題 -->
+    <div class="home-title">歡迎來到 ToDoList 網站</div>
+    <!-- 網站簡介 -->
+    <div class="home-desc">這是一個簡單又實用的待辦事項管理平台，幫助你輕鬆規劃每一天。</div>
+    {% if user.is_authenticated %}
+      <!-- 已登入：顯示進入任務清單與登出按鈕 -->
+      <a href="{% url 'task_list' %}" class="btn btn-primary home-btn">進入我的任務清單</a>
+      <div class="text-muted mt-2" style="font-size: 0.95rem;">歡迎回來，{{ user.username }}！</div>
+    {% else %}
+      <!-- 未登入：顯示登入按鈕 -->
+      <a href="{% url 'login' %}" class="btn btn-success home-btn">登入以開始使用</a>
+      <div class="text-muted mt-2" style="font-size: 0.95rem;">還沒有帳號？請先註冊。</div>
+    {% endif %}
   </div>
-  <!-- 網站標題 -->
-  <div class="home-title">歡迎來到 ToDoList 網站</div>
-  <!-- 網站簡介 -->
-  <div class="home-desc">這是一個簡單又實用的待辦事項管理平台，幫助你輕鬆規劃每一天。</div>
-  {% if user.is_authenticated %}
-    <!-- 已登入：顯示進入任務清單與登出按鈕 -->
-    <a href="{% url 'task_list' %}" class="btn btn-primary home-btn">進入我的任務清單</a>
-    <div class="text-muted mt-2" style="font-size: 0.95rem;">歡迎回來，{{ user.username }}！</div>
-  {% else %}
-    <!-- 未登入：顯示登入按鈕 -->
-    <a href="{% url 'login' %}" class="btn btn-success home-btn">登入以開始使用</a>
-    <div class="text-muted mt-2" style="font-size: 0.95rem;">還沒有帳號？請先註冊。</div>
-  {% endif %}
 </div>
 {% endblock %}
