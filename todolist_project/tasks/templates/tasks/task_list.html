@@ -2,51 +2,100 @@
 {% load static %}
 
 {% block content %}
+<!-- 載入自訂樣式 -->
 <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css" media="screen" charset="utf-8">
-<div class="container">
-  <form id="add-task-form">
-    <p>
-      <label for="new-task">Add Item</label>
-      <input id="new-task" type="text" autocomplete="off">
-      <button id="add-task-btn" type="submit">Add</button>
+
+<div class="container" style="max-width: 500px;">
+  <!-- =========================
+       新增任務表單區塊
+       ========================= -->
+  <form id="add-task-form" class="card shadow-sm p-3 mb-4 bg-body rounded">
+    <p class="mb-2">
+      <!-- 任務名稱輸入 -->
+      <label for="new-task" class="form-label">Add Item</label>
+      <input id="new-task" type="text" autocomplete="off" class="form-control d-inline-block" style="width: 45%;" placeholder="請輸入任務">
+      <!-- 任務日期輸入 -->
+      <input id="new-task-date" type="date" class="form-control d-inline-block" style="width: 35%;" placeholder="日期">
+      <!-- 新增按鈕 -->
+      <button id="add-task-btn" type="submit" class="btn btn-success ms-2" title="新增">
+        <span class="bi bi-plus"></span> Add
+      </button>
     </p>
   </form>
 
-  <h3>Todo</h3>
-  <ul id="incomplete-tasks">
+  <!-- =========================
+       未完成任務列表區塊
+       ========================= -->
+  <h3 class="mt-4">Todo</h3>
+  <ul id="incomplete-tasks" class="list-group mb-4">
     {% if user.is_authenticated %}
       {% for task in tasks %}
         {% if not task.completed %}
-          <li data-id="{{ task.id }}">
-            <input type="checkbox">
-            <label>{{ task.title }}</label>
-            <input type="text">
-            <button class="edit">Edit</button>
-            <button class="delete">Delete</button>
+          <li data-id="{{ task.id }}" class="list-group-item d-flex align-items-center">
+            <!-- 勾選框：標記完成 -->
+            <input type="checkbox" class="form-check-input me-2">
+            <!-- 任務標題 -->
+            <label class="flex-grow-1">{{ task.title }}</label>
+            <!-- 任務日期 -->
+            <span class="task-date ms-2">{% if task.date %}{{ task.date|date:"Y-m-d" }}{% endif %}</span>
+            <!-- 編輯用輸入框（預設隱藏，前端控制顯示） -->
+            <input type="text" class="form-control ms-2" style="width: 120px;">
+            <!-- 編輯按鈕 -->
+            <button class="edit btn btn-outline-primary btn-sm ms-2" title="編輯">
+              <span class="bi bi-pencil"></span> Edit
+            </button>
+            <!-- 刪除按鈕 -->
+            <button class="delete btn btn-outline-danger btn-sm ms-1" title="刪除">
+              <span class="bi bi-trash"></span> Delete
+            </button>
           </li>
         {% endif %}
       {% endfor %}
     {% else %}
-      <p>請先<a href="{% url 'login' %}">登入</a>查看您的任務</p>
+      <!-- 未登入提示 -->
+      <li class="list-group-item text-center">
+        <p>請先<a href="{% url 'login' %}">登入</a>查看您的任務</p>
+      </li>
     {% endif %}
   </ul>
 
+  <!-- =========================
+       已完成任務列表區塊
+       ========================= -->
   <h3>Completed</h3>
-  <ul id="completed-tasks">
+  <ul id="completed-tasks" class="list-group">
     {% if user.is_authenticated %}
       {% for task in tasks %}
         {% if task.completed %}
-          <li data-id="{{ task.id }}">
-            <input type="checkbox" checked>
-            <label>{{ task.title }}</label>
-            <input type="text">
-            <button class="edit">Edit</button>
-            <button class="delete">Delete</button>
+          <li data-id="{{ task.id }}" class="list-group-item d-flex align-items-center">
+            <!-- 勾選框：已完成 -->
+            <input type="checkbox" checked class="form-check-input me-2">
+            <!-- 任務標題 -->
+            <label class="flex-grow-1">{{ task.title }}</label>
+            <!-- 任務日期 -->
+            <span class="task-date ms-2">{% if task.date %}{{ task.date|date:"Y-m-d" }}{% endif %}</span>
+            <!-- 編輯用輸入框（預設隱藏，前端控制顯示） -->
+            <input type="text" class="form-control ms-2" style="width: 120px;">
+            <!-- 編輯按鈕 -->
+            <button class="edit btn btn-outline-primary btn-sm ms-2" title="編輯">
+              <span class="bi bi-pencil"></span> Edit
+            </button>
+            <!-- 刪除按鈕 -->
+            <button class="delete btn btn-outline-danger btn-sm ms-1" title="刪除">
+              <span class="bi bi-trash"></span> Delete
+            </button>
           </li>
         {% endif %}
       {% endfor %}
     {% endif %}
   </ul>
 </div>
+
+<!-- =========================
+     前端腳本與 Bootstrap Icons
+     ========================= -->
+<!-- 載入前端互動腳本 -->
 <script type="text/javascript" src="{% static 'app.js' %}"></script>
+<!-- Bootstrap Icons CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 {% endblock %}

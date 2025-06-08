@@ -4,13 +4,19 @@
 {% block title %}登入頁面{% endblock %}
 
 {% block content %}
+<!-- 
+    登入表單區塊
+    - 置中顯示
+    - 卡片樣式
+    - 表單含 CSRF 防護
+-->
 <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
     <div class="card shadow" style="width: 100%; max-width: 400px;">
         <div class="card-body">
             <h3 class="card-title text-center mb-4">請登入</h3>
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form.as_p }} <!-- Django 自動產生的登入表單 -->
                 <button type="submit" class="btn btn-primary w-100">登入</button>
             </form>
         </div>

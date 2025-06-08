@@ -1,26 +1,18 @@
 """
-URL configuration for todolist_project project.
+todolist_project 專案的 URL 設定檔。
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+此檔案負責將不同的 URL 路徑導向對應的應用程式或 view。
+詳細說明請參考官方文件：https://docs.djangoproject.com/en/5.2/topics/http/urls/
 """
+
 from django.contrib import admin
 from django.urls import path, include
 
 
 urlpatterns = [
+    # 管理後台路徑
     path('admin/', admin.site.urls),
-    path('', include('tasks.urls')), # 將任務應用的 URL 包含進來
 
-    path('tasks/', include('tasks.urls')),
+    # 所有路由交給 tasks/urls.py 處理（包含首頁與任務）
+    path('', include('tasks.urls')),
 ]

@@ -3,12 +3,19 @@
 {% block title %}已登出{% endblock %}
 
 {% block content %}
+<!-- 
+    登出成功頁面
+    - 置中顯示卡片
+    - 提供重新登入與回首頁按鈕
+-->
 <div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
     <div class="card shadow" style="width: 100%; max-width: 400px;">
         <div class="card-body text-center">
             <h3 class="mb-3">您已成功登出</h3>
+            <!-- 重新登入按鈕 -->
             <a href="{% url 'login' %}" class="btn btn-primary">重新登入</a>
-            <a href="{% url 'task_list' %}" class="btn btn-link">回首頁</a>
+            <!-- 回首頁按鈕 -->
+            <a href="{% url 'home' %}" class="btn btn-link">回首頁</a>
         </div>
     </div>
 </div>

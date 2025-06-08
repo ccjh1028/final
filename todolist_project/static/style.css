@@ -1,29 +1,45 @@
-/* Basic Style */
+/* ===========================
+   基本樣式設定
+   =========================== */
 body {
   background: #ffffff;
   color: #333;
   font-family: Lato, "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei", sans-serif;
   margin: 0;
 }
+
+/* 主要容器置中 */
 .container {
   display: block;
-  width: 400px;
+  width: 500px;
   margin: 20px auto 0;
 }
+
+/* 移除 ul 預設間距 */
 ul {
   margin: 0;
   padding: 0;
 }
+
+/* li 內所有元素預設左浮動 */
 li * {
   float: left;
 }
+
+/* li 與 h3 標題清除浮動、移除列表樣式 */
 li, h3 {
-  clear:both;
-  list-style:none;
+  clear: both;
+  list-style: none;
 }
+
+/* 輸入框與按鈕去除外框 */
 input, button {
   outline: none;
 }
+
+/* ===========================
+   按鈕樣式
+   =========================== */
 button {
   background: none;
   border: 0px;
@@ -37,7 +53,10 @@ button {
 button:hover {
   color: #333;
 }
-/* Heading */
+
+/* ===========================
+   標題樣式
+   =========================== */
 h3,
 label[for='new-task'] {
   color: #333;
@@ -48,6 +67,10 @@ label[for='new-task'] {
   margin: 0;
   text-transform: uppercase;
 }
+
+/* ===========================
+   輸入框樣式
+   =========================== */
 input[type="text"] {
   margin: 0;
   font-size: 18px;
@@ -64,58 +87,119 @@ input[type="text"]:focus {
   color: #333;
 }
 
-/* New Task */
+/* ===========================
+   新增任務區塊
+   =========================== */
 label[for='new-task'] {
   display: block;
   margin: 0 0 20px;
 }
 input#new-task {
   float: left;
-  width: 318px;
+  width: 160px;
+  margin-right: 10px;
+}
+/* 新增任務日期輸入框 */
+input#new-task-date {
+  float: left;
+  width: 120px;
+  margin-right: 10px;
+  font-size: 16px;
+  height: 38px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  color: #888;
+}
+/* 新增任務按鈕 */
+p > button, #add-task-btn {
+  float: left;
+  margin: 0;
+  height: 38px;
+  line-height: 38px;
+  padding: 0 16px;
 }
 p > button:hover {
   color: #0FC57C;
 }
 
-/* Task list */
+/* ===========================
+   任務列表樣式
+   =========================== */
 li {
   overflow: hidden;
   padding: 20px 0;
   border-bottom: 1px solid #eee;
 }
+/* 勾選框位置微調 */
 li > input[type="checkbox"] {
   margin: 0 10px;
   position: relative;
   top: 15px;
 }
+/* 任務標題樣式 */
 li > label {
   font-size: 18px;
   line-height: 40px;
-  width: 237px;
+  width: 160px; /* 原本237px，縮短以容納日期 */
   padding: 0 0 0 11px;
 }
-li >  input[type="text"] {
-  width: 226px;
+/* 任務日期顯示樣式 */
+li > .task-date {
+  font-size: 15px;
+  color: #666;
+  margin-left: 12px;
+  line-height: 40px;
+  min-width: 90px;
+  display: inline-block;
+  vertical-align: middle;
 }
+/* 編輯文字輸入框寬度調整 */
+li > input[type="text"] {
+  width: 140px; /* 原本226px，縮短以容納日期 */
+}
+/* 刪除按鈕 hover 效果 */
 li > .delete:hover {
   color: #CF2323;
 }
 
-/* Completed */
+/* ===========================
+   已完成任務樣式
+   =========================== */
 #completed-tasks label {
   text-decoration: line-through;
   color: #888;
 }
 
-/* Edit Task */
+/* ===========================
+   編輯模式樣式
+   =========================== */
+/* 預設隱藏編輯文字框 */
 ul li input[type=text] {
-  display:none;
+  display: none;
 }
-
+/* 編輯模式顯示編輯文字框 */
 ul li.editMode input[type=text] {
-  display:block;
+  display: block;
+}
+/* 編輯模式隱藏標籤 */
+ul li.editMode label {
+  display: none;
 }
 
-ul li.editMode label {
-  display:none;
+/* ===========================
+   編輯日期輸入框樣式（可依需求調整）
+   =========================== */
+/* .edit-date 預設由 JS 控制顯示/隱藏，這裡可加自訂樣式 */
+.edit-date {
+  width: 120px;
+  margin-left: 10px;
+  font-size: 15px;
+  height: 32px;
+  padding: 4px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  color: #888;
 }
